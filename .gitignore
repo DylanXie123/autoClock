@@ -2,7 +2,6 @@ node_modules
 test*
 2020*
 *.png
-main*
 others
 send_mail.js
 main.yml
