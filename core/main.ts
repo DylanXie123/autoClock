@@ -53,80 +53,42 @@ async function my_main(_user: any, test: boolean) {
     await frame.waitForSelector('body > div > div.service-right-sidebar > div.service-entrance > ul > li:nth-child(1)')
     await frame.click('body > div > div.service-right-sidebar > div.service-entrance > ul > li:nth-child(1)')
 
-    // // 开始填报
-    // console.log("begin to fill form" + moment(Date.now()).format('YYYY/MM/DD HH:mm:ss') + "----" + String(_user['username']))
-    // frame = await page.waitForFrame(f => f.url().includes('/elobby/service/start.htm'))
-    // await frame.waitForSelector("#mini-2\\$1")
-    // await frame.click("#mini-2\\$1")
-    // const random = Math.floor(Math.random() * 10);
-    // await frame.waitForSelector("#BRTW\\$text");
-    // await frame.type("#BRTW\\$text", "36." + random, { delay: 10 });
+    // 开始填报
+    console.log("here");
+    console.log("begin to fill form" + moment(Date.now()).format('YYYY/MM/DD HH:mm:ss') + "----" + String(_user['username']))
+    frame = await page.waitForFrame(f => f.url().includes('/EIP/flow/flowForm'))
+    // 已经阅知
+    await frame.waitForSelector("#mini-2\\$0")
+    await frame.click("#mini-2\\$0")
+    // 体温
+    const random = Math.floor(Math.random() * 10);
+    await frame.waitForSelector("#BRTW\\$text");
+    await frame.type("#BRTW\\$text", "36." + random, { delay: 10 });
+    // 阴性
+    await frame.waitForSelector("#mini-9\\$1");
+    await frame.click("#mini-9\\$1");
+    // 未被隔离
+    await frame.waitForSelector("#mini-10\\$ck\\$0");
+    await frame.click("#mini-10\\$ck\\$0");
+    // 绿码
+    await frame.waitForSelector("#mini-11\\$2");
+    await frame.click("#mini-11\\$2");
+    console.log("complete form" + moment(Date.now()).format('YYYY/MM/DD HH:mm:ss') + "----" + String(_user['username']))
 
-    // await frame.evaluate((_user) => {
-    //   // 没有去过高风险地区
+    // 提交按钮
+    frame = page.frames().find(f => f.url().includes('/cooperative/openCooperative.htm'))!
+    const ele = await frame.waitForSelector('#sendBtn')
+    await frame.click('#sendBtn')
 
-    //   document.querySelector<HTMLElement>("#mini-2\\$1")?.click();
-    //   // 已经阅知
-    //   // document.querySelector("#mini-4\\$ck\\$0").click();
-    //   // 随机温度
-    //   var random = Math.floor(Math.random() * 10);
-    //   // 绿色 
-    //   // document.querySelector("#mini-2\\$ck\\$2").click()
-    //   // 已取得西安市一码通
-    //   // document.querySelector("#mini-3\\$ck\\$0").click();
-    //   // 哪个校园
-    //   // document.querySelector("#SZXQ\\$value").value = _user['campus']
-    //   // 36.5 
-    //   const inputEle = document.querySelector<HTMLInputElement>("#BRTW\\$text");
-    //   if (inputEle) {
-    //     inputEle.value = "36." + random
-    //   }
-    //   // mini.get("BRTW").value = "36." + random
-    //   // 所在学院
-    //   // document.querySelector("#SZXY\\$text").value = _user['school']
-    //   // mini.get("SZXY").value = _user['school']
-    // }, _user)
-
-    //上午下午
-    // const x_y=(await (await frame_51.$("#SXW > .mini-buttonedit-border > .mini-buttonedit-buttons > .mini-buttonedit-button")).boundingBox());
-    // await page.mouse.move(x_y['x'],x_y['y']);
-    // await page.mouse.down();
-    // await page.mouse.up();
-    // if (new Date().getHours() < 12) {
-    //   frame_51.click('.mini-grid-rows-content > .mini-listbox-items > tbody > #mini-72\\$0 > td:nth-child(2)')
-    // }else{
-    //   // document.querySelector("#SXW\\$value").value="下午"
-    //   // mini.get("SXW").value="下午"
-    //   frame_51.click('.mini-grid-rows-content > .mini-listbox-items > tbody > #mini-72\\$1 > td:nth-child(2)')
-    // }
-
-
-    // // 提交按钮
-    // const frames4 = page.frames()
-    // const frame_53 = frames4.find(f => f.url().includes('/EIP/cooperative/openCooperative.htm'))
-    // if (frame_53) {
-    //   await frame_53.waitForSelector('table #sendBtn')
-    //   await frame_53.click('table #sendBtn')
-    // }
+    // 确定按钮
+    await frame.waitForSelector("#mini-17")
+    await frame.click("#mini-17")
 
     // 截图
     await page.waitForNetworkIdle()
     await page.screenshot({ path: "C:/Users/dylan/Desktop/" + moment(Date.now()).format('YYYY-MM-DD-HH-mm-ss') + "_1.png" });//截个图
 
-    // // 确定按钮
-    // await page.waitForTimeout(sleepTime)
-    // const frames5 = page.frames()
-    // const frame_5_1 = frames5.find(f => f.url().includes('cooperative/openCooperative.htm'))
-    // // 确定
-    // if (frame_5_1) {
-    //   const done = await frame_5_1.waitForSelector("#mini-17")
-    //   await done?.click()
-    // }
-    // // 截图
-    // var screenshot_dir_2 = moment(Date.now()).format('YYYY-MM-DD-HH-mm-ss') + "_2.png"
-    // await page.screenshot({ path: screenshot_dir_2 });//截个图
-    // await page.waitForTimeout(sleepTime)
-    // //验证打卡成功否
+    //验证打卡成功否
     // await page.waitForTimeout(sleepTime)
     // const frame_55 = await page.waitForFrame(f => f.url().includes('/elobby/service/start.htm'))
     // await frame_55.waitForSelector('.service-right-sidebar > .service-entrance > ul > .bl-item:nth-child(2) > .business-btn-text')
